@@ -44,7 +44,7 @@ def roleReturn(rawStr: str, res: dict, BaseRole: str, NoneAllTrue: bool = False)
     return res
 
 
-def unifyTargetArray(rawStr):
+def unifyTargetArray(rawStr, id):
     success = False
     res = {
         "B1": False,
@@ -90,10 +90,28 @@ def unifyTargetArray(rawStr):
         res = roleReturn(rawStr, res, "M", True)
         success = True
 
-    # 3. 特徴が数字のみのものは、パースして B1, B2 のみに直す
+    # 3. 特徴が数字のみのものは、idToFaculty を参照する
     if (
-        "1" in rawStr or "2" in rawStr or "3" in rawStr or "4" in rawStr
-    ) and success != True:
+        ("1" in rawStr or "2" in rawStr or "3" in rawStr or "4" in rawStr)
+        and (id[0] == "5" or id[0] == "6" or id[0] == "7" or id[0] == "8")
+        and success != True
+    ):
+        res = roleReturn(rawStr, res, "M")
+        success = True
+
+    if (
+        ("1" in rawStr or "2" in rawStr or "3" in rawStr or "4" in rawStr)
+        and (id[0:3] == "00M")
+        and success != True
+    ):
+        res = roleReturn(rawStr, res, "M")
+        success != True
+
+    if (
+        ("1" in rawStr or "2" in rawStr or "3" in rawStr or "4" in rawStr)
+        and (id[0] == "0" or id[0] == "1" or id[0] == "2" or id[0] == "3")
+        and success != True
+    ):
         res = roleReturn(rawStr, res, "B")
         success = True
 
